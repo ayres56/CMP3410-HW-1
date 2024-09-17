@@ -21,6 +21,11 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        // Limit framerate to 60fps.
+        QualitySettings.vSyncCount = 0; // Set vSyncCount to 0 so that using .targetFrameRate is enabled.
+        Application.targetFrameRate = 60;
+
+
         rb2d = GetComponent<Rigidbody2D>();
         winText.text = "";
         restartButton.gameObject.SetActive(false);
