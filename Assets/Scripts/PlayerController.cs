@@ -13,8 +13,8 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb2d;
     private int count;
+    private float timer = 60.0f;
 
-    // Start is called before the first frame update
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
@@ -24,32 +24,51 @@ public class PlayerController : MonoBehaviour
         restartButton.gameObject.SetActive(false);
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
+        //Calculate movement
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
         Vector2 movement = new Vector2(moveHorizontal, moveVertical);
-        rb2d.AddForce(movement * speed);
+        rb2d.velocity = movement * speed;
+
+        //Win condition
+        if (timer <= 0.0f)
+        {
+            winCond();
+        }
+        else
+        {
+            //Increment Timer
+            timer -= Time.deltaTime;
+            int seconds = (int)timer % 60;
+            countText.text = "Timer: " + seconds.ToString();
+        }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (other.gameObject.CompareTag("PickUp"))
+        if (collision.gameObject.CompareTag("PickUp") && timer > 0.0f)
         {
-            other.gameObject.SetActive(false);
-            count++;
-            countText.text = "Count: " + count.ToString();
-            if(count >= 2)
-            {
-                winText.text = "You Win!";
-                restartButton.gameObject.SetActive(true);
-            }
+            //Lose the game
+            failCond();
         }
     }
 
     public void OnRestartButtonPress()
     {
         SceneManager.LoadScene("SampleScene");
+    }
+
+    private void winCond()
+    {
+        winText.text = "You Win!";
+        restartButton.gameObject.SetActive(true);
+    }
+
+    private void failCond()
+    {
+        winText.text = "You Lose!";
+        restartButton.gameObject.SetActive(true);
     }
 }
