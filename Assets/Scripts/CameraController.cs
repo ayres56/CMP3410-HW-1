@@ -1,3 +1,7 @@
+//Author: Josiah Ayres
+//Date: 9/17/2024
+//Set camera orientation
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,9 +16,9 @@ public class CameraController : MonoBehaviour
         offset = transform.position - player.transform.position;
     }
 
-    // Update is called once per frame
     void LateUpdate()
     {
+        //Place camera on player
         transform.position = player.transform.position + offset;
     }
 }

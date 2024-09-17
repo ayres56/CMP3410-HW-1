@@ -1,3 +1,7 @@
+//Author: Josiah Ayres
+//Date: 9/17/2024
+//Player Movement / Controller Script
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,8 +22,6 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        count = 0;
-        countText.text = "Count: " + count.ToString();
         winText.text = "";
         restartButton.gameObject.SetActive(false);
     }
